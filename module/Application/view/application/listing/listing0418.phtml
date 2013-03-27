@@ -1,0 +1,60 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.18 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.18</h1>
+<h3>Daten mit <code>Zend\Filter\FilterChain</code> filtern</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\Filter\Callback;
+use Zend\Filter\FilterChain;
+use Zend\Filter\Word\SeparatorToCamelCase;
+use Zend\I18n\Filter\Alpha;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filterChain = new FilterChain();
+$filterChain->attach(new Alpha(true));
+$filterChain->attach(new Callback('ucwords'));
+$filterChain->attachByName('WordSeparatorToCamelCase', ' ');
+
+Debug::dump($filterChain->filter($value));
+</pre>
+<h3>Ausgabe</h3>
+<?php
+use Zend\Debug\Debug;
+use Zend\Filter\Callback;
+use Zend\Filter\FilterChain;
+use Zend\Filter\Word\SeparatorToCamelCase;
+use Zend\I18n\Filter\Alpha;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filterChain = new FilterChain();
+$filterChain->attach(new Alpha(true));
+$filterChain->attach(new Callback('ucwords'));
+$filterChain->attachByName('WordSeparatorToCamelCase', ' ');
+
+Debug::dump($filterChain->filter($value));
+?>
+</div>
+</div>

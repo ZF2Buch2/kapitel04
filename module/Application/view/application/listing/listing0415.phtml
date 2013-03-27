@@ -1,0 +1,117 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.15 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.15</h1>
+<h3>E-Mails von einem IMAP Server abrufen</h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// configure imap mail storage
+$imap = new Zend\Mail\Storage\Imap(array(
+    'host'     => 'imap.luigis-pizza.de',
+    'user'     => 'luigi',
+    'password' => 'luigi',
+));
+$imap->selectFolder('INBOX');
+
+// loop through messages
+for ($id = 1; $id <= $imap->countMessages(); $id++) {
+    // get message
+    $message = $imap->getMessage($id); /* @var $message Zend\Mail\Storage\Message */
+    
+    // check for content part
+    if (!isset($message->contentType)) {
+        continue;
+    }
+    
+    // get content type
+    $contentType = Zend\Mime\Decode::splitContentType($message->contentType);
+    
+    // check for text/plain mails
+    if ($contentType['type'] != 'text/plain') {
+        continue;
+    }
+    
+    // print message
+    echo "&lt;hr /&gt;";
+    echo "Von: " . $message->from . "&lt;br /&gt;";
+    echo "An: " . $message->to . "&lt;br /&gt;";
+    echo "Datum: " . $message->date . "&lt;br /&gt;";
+    echo "Betreff: " . $message->subject . "&lt;br /&gt;";
+    echo '&lt;br /&gt;';
+    echo $message->getContent();
+}
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+// try to catch exception
+try {
+    // configure imap mail storage
+    $imap = new Zend\Mail\Storage\Imap(array(
+        'host'     => 'imap.luigis-pizza.de',
+        'user'     => 'luigi',
+        'password' => 'mamma',
+    ));
+    $imap->selectFolder('INBOX');
+    
+    // loop through messages
+    for ($id = 1; $id <= $imap->countMessages(); $id++) {
+        // get message
+        $message = $imap->getMessage($id); /* @var $message Zend\Mail\Storage\Message */
+        
+        // check for content part
+        if (!isset($message->contentType)) {
+            continue;
+        }
+        
+        // get content type
+        $contentType = Zend\Mime\Decode::splitContentType($message->contentType);
+        
+        // check for text/plain mails
+        if ($contentType['type'] != 'text/plain') {
+            continue;
+        }
+        
+        // print message
+        echo "&lt;hr /&gt;";
+        echo "Von: " . $message->from . "&lt;br /&gt;";
+        echo "An: " . $message->to . "&lt;br /&gt;";
+        echo "Datum: " . $message->date . "&lt;br /&gt;";
+        echo "Betreff: " . $message->subject . "&lt;br /&gt;";
+        echo '&lt;br /&gt;';
+        echo $message->getContent();
+    }
+} catch (RuntimeException $e) {
+    echo 'Das IMAP-Konto konnte nicht abgerufen werden. Bitte tragen Sie die korrekten Zugangsdaten ein.';
+}
+?>
+</pre>
+</div>
+</div>

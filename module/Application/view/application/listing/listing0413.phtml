@@ -1,0 +1,88 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.13 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.13</h1>
+<h3>Versand einer E-Mail Nachricht über <code>Zend\Mail\Transport\File</code></h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// create the email message
+$message = new Zend\Mail\Message();
+$message->setEncoding('utf-8');
+$message->addFrom('info@luigis-pizza.de', 'Luigis Pizza');
+$message->addTo('horst@hat-hunger.de', 'Horst H. Unger');
+$message->setSubject('Ihre Bestellung');
+$message->setBody('Hiermit bestätigen wir Ihre Bestellung.');
+
+// configure transport
+$options   = new Zend\Mail\Transport\FileOptions(array(
+    'path'      => LUIGI_ROOT . '/data/mail/',
+    'callback'  => function (Zend\Mail\Transport\File $transport) {
+        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+    },
+));
+$transport = new Zend\Mail\Transport\File($options);
+
+// send mail
+$transport->send($message);
+
+// output last file
+echo "&lt;pre&gt;";
+include $transport->getLastFile();
+echo "&lt;/pre&gt;";
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+// create the email message
+$message = new Zend\Mail\Message();
+$message->setEncoding('utf-8');
+$message->addFrom('info@luigis-pizza.de', 'Luigis Pizza');
+$message->addTo('horst@hat-hunger.de', 'Horst H. Unger');
+$message->setSubject('Ihre Bestellung');
+$message->setBody('Hiermit bestätigen wir Ihre Bestellung.');
+
+// configure transport
+$options   = new Zend\Mail\Transport\FileOptions(array(
+  'path'     => LUIGI_ROOT . '/data/mail/',
+  'callback' => function (Zend\Mail\Transport\File $transport) {
+      return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+    },
+));
+$transport = new Zend\Mail\Transport\File($options);
+
+// send mail
+$transport->send($message);
+
+// output last file
+include $transport->getLastFile();
+?>
+</pre>
+</div>
+</div>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zend-config>
+    <general>
+        <homepage>http://www.luigis-pizza.de/</homepage>
+        <base_price>3.95</base_price>
+        <topping_price>0.95</topping_price>
+    </general>
+    <pizza_list>
+        <salami>
+            <name>Pizza Salami</name>
+            <crust>wheat flour</crust>
+            <toppings>salami</toppings>
+            <toppings>cheese</toppings>
+            <toppings>tomato stodge</toppings>
+        </salami>
+        <hawaii>
+            <name>Pizza Hawaii</name>
+            <crust>wheat flour</crust>
+            <toppings>boiled ham</toppings>
+            <toppings>pineapple</toppings>
+            <toppings>cheese</toppings>
+            <toppings>tomato stodge</toppings>
+        </hawaii>
+        <melon>
+            <name>Pizza Melone</name>
+            <crust>spelt flour</crust>
+            <toppings>melon</toppings>
+            <toppings>boiled ham</toppings>
+            <toppings>salami</toppings>
+            <toppings>cheese</toppings>
+            <toppings>tomato stodge</toppings>
+        </melon>
+    </pizza_list>
+</zend-config>

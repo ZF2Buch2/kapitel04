@@ -1,0 +1,59 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.8 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.8</h1>
+<h3>Ausgabe der unterstützten Datentypen</h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure cache storage
+$cache = Zend\Cache\StorageFactory::factory(array(
+    'adapter' => array(
+        'name' => 'filesystem',
+    ),
+    'plugins' => array(
+        'serializer',
+    ),
+));
+
+// output supported data types
+Zend\Debug\Debug::dump($cache->getCapabilities()->getSupportedDatatypes());
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// configure cache storage
+$cache = Zend\Cache\StorageFactory::factory(array(
+    'adapter' => array(
+        'name' => 'filesystem',
+    ),
+    'plugins' => array(
+        'serializer',
+    ),
+));
+
+// output supported data types
+Zend\Debug\Debug::dump($cache->getCapabilities()->getSupportedDatatypes());
+?>
+</div>
+</div>

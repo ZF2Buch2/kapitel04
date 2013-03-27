@@ -1,0 +1,64 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.23 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.23</h1>
+<h3>Daten mit <code>Zend\Validator\ValidatorChain</code> validieren</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\I18n\Validator\Alpha;
+use Zend\Validator\ValidatorChain;
+
+$value1 = 'Hier dürfen nur Buchstaben stehen';
+$value2 = 'Hier dürfen nur Buchstaben stehen!!!';
+$value3 = 'Hier kurzer Text!';
+$validatorChain = new ValidatorChain();
+$validatorChain->attach(new Alpha(true));
+$validatorChain->attachByName('StringLength', array('min' => 20, 'max' => 50));
+Debug::dump($validatorChain->isValid($value1));
+Debug::dump($validatorChain->getMessages());
+Debug::dump($validatorChain->isValid($value2));
+Debug::dump($validatorChain->getMessages());
+Debug::dump($validatorChain->isValid($value3));
+Debug::dump($validatorChain->getMessages());
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+use Zend\Debug\Debug;
+use Zend\I18n\Validator\Alpha;
+use Zend\Validator\ValidatorChain;
+
+$value1 = 'Hier dürfen nur Buchstaben stehen';
+$value2 = 'Hier dürfen nur Buchstaben stehen!!!';
+$value3 = 'Hier kurzer Text!';
+$validatorChain = new ValidatorChain();
+$validatorChain->attach(new Alpha(true));
+$validatorChain->attachByName('StringLength', array('min' => 20, 'max' => 50));
+Debug::dump($validatorChain->isValid($value1));
+Debug::dump($validatorChain->getMessages());
+Debug::dump($validatorChain->isValid($value2));
+Debug::dump($validatorChain->getMessages());
+Debug::dump($validatorChain->isValid($value3));
+Debug::dump($validatorChain->getMessages());
+?>
+</div>
+</div>

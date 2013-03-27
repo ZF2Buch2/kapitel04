@@ -1,0 +1,77 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.16 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.16</h1>
+<h3>Einsatz einiger Standardfilter aus <code>Zend\Filter</code></h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\Filter\Callback;
+use Zend\Filter\Digits;
+use Zend\Filter\Word\SeparatorToCamelCase;
+use Zend\I18n\Filter\Alnum;
+use Zend\I18n\Filter\Alpha;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filter = new Digits();
+Debug::dump($filter->filter($value));
+
+$filter = new Alnum(true);
+Debug::dump($filter->filter($value));
+
+$filter = new Callback('wordwrap', 30);
+Debug::dump($filter->filter($value));
+
+$filter1 = new Alpha(true);
+$filter2 = new Callback('ucwords');
+$filter3 = new SeparatorToCamelCase(' ');
+Debug::dump($filter3->filter($filter2->filter($filter1->filter($value))));
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+use Zend\Debug\Debug;
+use Zend\Filter\Callback;
+use Zend\Filter\Digits;
+use Zend\Filter\Word\SeparatorToCamelCase;
+use Zend\I18n\Filter\Alnum;
+use Zend\I18n\Filter\Alpha;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filter = new Digits();
+Debug::dump($filter->filter($value));
+
+$filter = new Alnum(true);
+Debug::dump($filter->filter($value));
+
+$filter = new Callback('wordwrap', 30);
+Debug::dump($filter->filter($value));
+
+$filter1 = new Alpha(true);
+$filter2 = new Callback('ucwords');
+$filter3 = new SeparatorToCamelCase(' ');
+Debug::dump($filter3->filter($filter2->filter($filter1->filter($value))));
+Debug::dump($filter1->filter($filter2->filter($filter3->filter($value))));
+?>
+</div>
+</div>

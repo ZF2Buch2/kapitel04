@@ -1,0 +1,53 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.4 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.4</h1>
+<h3>Lesen einer INI-Datei mit Hilfe von <code>Zend\Config\Reader</code></h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// set input file
+$input = LUIGI_ROOT . '/module/Pizza/config/module.config.ini';
+
+// read config file
+$reader = new Zend\Config\Reader\Ini();
+$config = $reader->fromFile($input);
+
+// output config data
+Zend\Debug\Debug::dump($config);
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// set input file
+$input = LUIGI_ROOT . '/module/Pizza/config/module.config.ini';
+
+// read config file
+$reader = new Zend\Config\Reader\Ini();
+$config = $reader->fromFile($input);
+
+// output config data
+Zend\Debug\Debug::dump($config);
+?>
+</div>
+</div>

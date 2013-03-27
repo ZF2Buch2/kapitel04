@@ -1,0 +1,102 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+  @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.11 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.11</h1>
+<h3>Logging von Pizzabelägen mit Filtern</h3>
+<pre>
+&lt;?php
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// define log file
+$generalLog = LUIGI_ROOT . '/data/log/general.log';
+$salamiLog  = LUIGI_ROOT . '/data/log/salami.log';
+
+// prepare logger
+$salamiFilter = new Zend\Log\Filter\Regex('=salami=i');
+$generalWriter = new Zend\Log\Writer\Stream($generalLog);
+$salamiWriter = new Zend\Log\Writer\Stream($salamiLog);
+$salamiWriter->addFilter($salamiFilter);
+$logger = new Zend\Log\Logger();
+$logger->addWriter($generalWriter);
+$logger->addWriter($salamiWriter);
+
+// log 10 pizza
+for ($i = 0; $i < 10; $i++) {
+    // get toppings
+    $toppings = Pizza\Service\PizzaService::getRandomTopping(3);
+    
+    // log pizza
+    $logger->log(Zend\Log\Logger::INFO, 'Pizza mit ' . implode(', ', $toppings) . ' belegt');
+}
+
+// output log
+echo implode('&lt;br /&gt;', file($generalLog));
+echo "&lt;hr /&gt;";
+echo implode('&lt;br /&gt;', file($salamiLog));
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// define log file
+$generalLog = LUIGI_ROOT . '/data/log/general.log';
+$salamiLog  = LUIGI_ROOT . '/data/log/salami.log';
+
+// prepare logger
+$salamiFilter = new Zend\Log\Filter\Regex('=salami=i');
+$generalWriter = new Zend\Log\Writer\Stream($generalLog);
+$salamiWriter = new Zend\Log\Writer\Stream($salamiLog);
+$salamiWriter->addFilter($salamiFilter);
+$logger = new Zend\Log\Logger();
+$logger->addWriter($generalWriter);
+$logger->addWriter($salamiWriter);
+
+// log 10 pizza
+for ($i = 0; $i < 10; $i++) {
+    // get toppings
+    $toppings = Pizza\Service\PizzaService::getRandomTopping(3);
+    
+    // log pizza
+    $logger->log(Zend\Log\Logger::INFO, 'Pizza mit ' . implode(', ', $toppings) . ' belegt');
+}
+
+// output log
+echo implode('', file($generalLog));
+echo "<hr />";
+echo implode('', file($salamiLog));
+?>
+</pre>
+</div>
+</div>

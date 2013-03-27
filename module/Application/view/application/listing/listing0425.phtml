@@ -1,0 +1,103 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.25 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.25</h1>
+<h3>Eigenen <code>PizzaName</code> Validator einsetzen</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\Validator\StaticValidator;
+use Zend\Validator\ValidatorChain;
+use Pizza\Validator\PizzaName;
+
+use Zend\Debug\Debug;
+use Zend\Validator\StaticValidator;
+use Zend\Validator\ValidatorChain;
+use Pizza\Validator\PizzaName;
+
+$values = array(array('Pizza Salami'), '', 'Pizza Pommes', 'Pizza Melone');
+
+$validator = new PizzaName();
+foreach ($values as $value) {
+    Debug::dump($validator->isValid($value));
+    Debug::dump($validator->getMessages());
+}
+
+StaticValidator::getPluginManager()->setInvokableClass(
+    'PizzaName', 'Pizza\Validator\PizzaName'
+);
+foreach ($values as $value) {
+    Debug::dump(StaticValidator::execute($value, 'PizzaName'));
+}
+
+$validatorChain = new ValidatorChain();
+$validatorChain->getPluginManager()->setInvokableClass(
+    'PizzaName', 'Pizza\Validator\PizzaName'
+);
+$validatorChain->attachByName('PizzaName');
+foreach ($values as $value) {
+    Debug::dump($validatorChain->isValid($value));
+    Debug::dump($validatorChain->getMessages());
+}
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+use Zend\Debug\Debug;
+use Zend\Validator\StaticValidator;
+use Zend\Validator\ValidatorChain;
+use Pizza\Validator\PizzaName;
+
+$values = array(array('Pizza Salami'), '', 'Pizza Pommes', 'Pizza Melone');
+
+$validator = new PizzaName();
+foreach ($values as $value) {
+    Debug::dump($validator->isValid($value));
+    Debug::dump($validator->getMessages());
+}
+
+StaticValidator::getPluginManager()->setInvokableClass(
+    'PizzaName', 'Pizza\Validator\PizzaName'
+);
+foreach ($values as $value) {
+    Debug::dump(StaticValidator::execute($value, 'PizzaName'));
+}
+
+$validatorChain = new ValidatorChain();
+$validatorChain->getPluginManager()->setInvokableClass(
+    'PizzaName', 'Pizza\Validator\PizzaName'
+);
+$validatorChain->attachByName('PizzaName');
+foreach ($values as $value) {
+    Debug::dump($validatorChain->isValid($value));
+    Debug::dump($validatorChain->getMessages());
+}
+?>
+</div>
+</div>

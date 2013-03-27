@@ -1,0 +1,82 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.20 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.20</h1>
+<h3>Eigenen <code>Revert</code> Filter einsetzen</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\Filter\FilterChain;
+use Zend\Filter\StaticFilter;
+use Pizza\Filter\Revert;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filter = new Revert();
+Debug::dump($filter->filter($value));
+
+StaticFilter::getPluginManager()->setInvokableClass(
+    'Revert', 'Pizza\Filter\Revert'
+);
+Debug::dump(StaticFilter::execute($value, 'Revert'));
+
+$filterChain = new FilterChain();
+$filterChain->getPluginManager()->setInvokableClass(
+    'Revert', 'Pizza\Filter\Revert'
+);
+$filterChain->attachByName('Revert');
+Debug::dump($filterChain->filter($value));
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+use Zend\Debug\Debug;
+use Zend\Filter\FilterChain;
+use Zend\Filter\StaticFilter;
+use Pizza\Filter\Revert;
+
+$value = 'Heute bekam Luigi die 4. Bestellung: 2x Pizza Salami';
+
+$filter = new Revert();
+Debug::dump($filter->filter($value));
+
+StaticFilter::getPluginManager()->setInvokableClass(
+    'Revert', 'Pizza\Filter\Revert'
+);
+Debug::dump(StaticFilter::execute($value, 'Revert'));
+
+$filterChain = new FilterChain();
+$filterChain->getPluginManager()->setInvokableClass(
+    'Revert', 'Pizza\Filter\Revert'
+);
+$filterChain->attachByName('Revert');
+Debug::dump($filterChain->filter($value));
+?>
+</div>
+</div>

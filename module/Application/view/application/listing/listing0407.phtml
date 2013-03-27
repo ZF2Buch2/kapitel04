@@ -1,0 +1,108 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.7 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.7</h1>
+<h3>Cachen eines Objektes im Dateisystem mit <code>Zend\Cache</code></h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// configure cache storage
+$cache = Zend\Cache\StorageFactory::factory(array(
+    'adapter' => array(
+        'name' => 'filesystem',
+        'options' => array(
+            'namespace' => 'pizza',
+            'ttl'       => 5,
+            'cache_dir' => LUIGI_ROOT . '/data/cache',
+        ),
+    ),
+    'plugins' => array(
+        'serializer',
+    ),
+));
+
+// read cache
+$pizza = $cache->getItem('salami');
+
+// check pizza
+if (!$pizza) {
+    // create pizza and set random price 
+    $pizza = new Pizza\Model\PizzaSalami();
+    $pizza->price = Zend\Math\Rand::getInteger(500, 1000) / 100;
+    
+    // save pizza to cache
+    $cache->setItem('salami', $pizza);
+}
+
+// output pizza
+Zend\Debug\Debug::dump($pizza);
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// configure cache storage
+$cache = Zend\Cache\StorageFactory::factory(array(
+    'adapter' => array(
+        'name' => 'filesystem',
+        'options' => array(
+            'namespace' => 'pizza',
+            'ttl'       => 5,
+            'cache_dir' => LUIGI_ROOT . '/data/cache',
+        ),
+    ),
+    'plugins' => array(
+        'serializer',
+    ),
+));
+
+// read cache
+$pizza = $cache->getItem('salami');
+
+// check pizza
+if (!$pizza) {
+    // create pizza and set random price 
+    $pizza = new Pizza\Model\PizzaSalami();
+    $pizza->price = Zend\Math\Rand::getInteger(500, 1000) / 100;
+    
+    // save pizza to cache
+    $cache->setItem('salami', $pizza);
+}
+
+// output pizza
+Zend\Debug\Debug::dump($pizza);
+?>
+</div>
+</div>

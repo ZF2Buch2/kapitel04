@@ -1,0 +1,76 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.26 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.26</h1>
+<h3>Fehlermeldungen für <code>PizzaName</code> Validator anpassen</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Pizza\Validator\PizzaName;
+
+$values = array(array('Pizza Salami'), '', 'Pizza Pommes', 'Pizza Melone');
+
+$validator = new PizzaName();
+$validator->setMessage(
+    'Du Depp hast keine Zeichenkette übergeben', PizzaName::INVALID
+);
+$validator->setMessages(array(
+    PizzaName::NOT_PIZZA    => '"%value%" ist ekelhaft!',
+    PizzaName::STRING_EMPTY => 'Du Depp hast nichts eingegeben',
+));
+
+foreach ($values as $value) {
+    Debug::dump($validator->isValid($value));
+    Debug::dump($validator->getMessages());
+}
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+use Zend\Debug\Debug;
+use Pizza\Validator\PizzaName;
+
+$values = array(array('Pizza Salami'), '', 'Pizza Pommes', 'Pizza Melone');
+
+$validator = new PizzaName();
+$validator->setMessage(
+    'Du Depp hast keine Zeichenkette übergeben', PizzaName::INVALID
+);
+$validator->setMessages(array(
+    PizzaName::NOT_PIZZA    => '"%value%" ist ekelhaft!',
+    PizzaName::STRING_EMPTY => 'Du Depp hast nichts eingegeben',
+));
+
+foreach ($values as $value) {
+    Debug::dump($validator->isValid($value));
+    Debug::dump($validator->getMessages());
+}
+?>
+</div>
+</div>

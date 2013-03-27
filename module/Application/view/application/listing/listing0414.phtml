@@ -1,0 +1,96 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.14 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.14</h1>
+<h3>Erstellen einer E-Mail Nachricht mit mehreren MIME-Parts</h3>
+<pre>
+&lt;?php 
+// setup autoloading
+require_once LUIGI_ROOT . '/vendor/autoload.php';
+
+// configure Autoloader
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('Pizza', LUIGI_ROOT . '/module/Pizza/src/Pizza');
+$loader->register();
+
+// create the mime text part
+$text = new Zend\Mime\Part('Hiermit bestätigen wir Ihre Bestellung.');
+$text->type = "text/plain";
+
+// create the mime html part
+$html = new Zend\Mime\Part('<p>Hiermit bestätigen wir Ihre <em>Bestellung</em>.');
+$html->type = "text/html";
+
+// create the mime image part
+$image = new Zend\Mime\Part(fopen(LUIGI_ROOT . '/public/img/luigis-pizza-logo.gif', 'r'));
+$image->type = "image/gif";
+
+// create the mime message
+$body = new Zend\Mime\Message();
+$body->setParts(array($text, $html, $image));
+
+// create the email message
+$message = new Zend\Mail\Message();
+$message->setEncoding('utf-8');
+$message->addFrom('info@luigis-pizza.de', 'Luigis Pizza');
+$message->addTo('horst@hat-hunger.de', 'Horst H. Unger');
+$message->setSubject('Ihre Bestellung');
+$message->setBody($body);
+$message->getHeaders()->get('content-type')->setType('multipart/alternative');
+
+// output headers and body
+Zend\Debug\Debug::dump($message->getHeaders());
+Zend\Debug\Debug::dump($message->getBody());
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// create the mime text part
+$text = new Zend\Mime\Part('Hiermit bestätigen wir Ihre Bestellung.');
+$text->type = "text/plain";
+
+// create the mime html part
+$html = new Zend\Mime\Part('<p>Hiermit bestätigen wir Ihre <em>Bestellung</em>.');
+$html->type = "text/html";
+
+// create the mime image part
+$image = new Zend\Mime\Part(fopen(LUIGI_ROOT . '/public/img/luigis-pizza-logo.gif', 'r'));
+$image->type = "image/gif";
+
+// create the mime message
+$body = new Zend\Mime\Message();
+$body->setParts(array($text, $html, $image));
+
+// create the email message
+$message = new Zend\Mail\Message();
+$message->setEncoding('utf-8');
+$message->addFrom('info@luigis-pizza.de', 'Luigis Pizza');
+$message->addTo('horst@hat-hunger.de', 'Horst H. Unger');
+$message->setSubject('Ihre Bestellung');
+$message->setBody($body);
+$message->getHeaders()->get('content-type')->setType('multipart/alternative');
+
+// output headers and body
+Zend\Debug\Debug::dump($message->getHeaders());
+Zend\Debug\Debug::dump($message->getBody());
+?>
+</div>
+</div>

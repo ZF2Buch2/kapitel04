@@ -1,0 +1,90 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 4
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 4.21 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 4.21</h1>
+<h3>Einsatz einiger Standardvalidatoren aus <code>Zend\Validator</code></h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\I18n\Validator\Alpha;
+use Zend\Validator\EmailAddress;
+use Zend\Validator\Hostname;
+use Zend\Validator\Isbn;
+
+$value1 = 'Hier dürfen nur Buchstaben stehen';
+$value2 = 'Hier auch verdammt!';
+$validator = new Alpha(true);
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+
+$value1 = '978-3-8273-2994-3';
+$value2 = '1-2345-6789-0';
+$validator = new Isbn(array('separator' => '-'));
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+
+$value1 = 'info@zendframeworkbuch.de';
+$value2 = 'horst@das@gibt@es@nicht.biz';
+$validator = new EmailAddress(array('allow' => Hostname::ALLOW_DNS));
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+use Zend\Debug\Debug;
+use Zend\I18n\Validator\Alpha;
+use Zend\Validator\EmailAddress;
+use Zend\Validator\Hostname;
+use Zend\Validator\Isbn;
+
+$value1 = 'Hier dürfen nur Buchstaben stehen';
+$value2 = 'Hier auch verdammt!';
+$validator = new Alpha(true);
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+
+$value1 = '978-3-8273-2994-3';
+$value2 = '1-2345-6789-0';
+$validator = new Isbn(array('separator' => '-'));
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+
+$value1 = 'info@zendframeworkbuch.de';
+$value2 = 'horst@das@gibt@es@nicht.biz';
+$validator = new EmailAddress(array('allow' => Hostname::ALLOW_DNS));
+Debug::dump($validator->isValid($value1));
+Debug::dump($validator->getMessages());
+Debug::dump($validator->isValid($value2));
+Debug::dump($validator->getMessages());
+?>
+</div>
+</div>

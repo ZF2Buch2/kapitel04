@@ -1,0 +1,31 @@
+---
+general:
+  homepage: http://www.luigis-pizza.de/
+  base_price: 3.950000
+  topping_price: 0.950000
+pizza_list:
+  salami:
+    name: Pizza Salami
+    crust: wheat flour
+    toppings:
+    - salami
+    - cheese
+    - tomato stodge
+  hawaii:
+    name: Pizza Hawaii
+    crust: wheat flour
+    toppings:
+    - boiled ham
+    - pineapple
+    - cheese
+    - tomato stodge
+  melon:
+    name: Pizza Melone
+    crust: spelt flour
+    toppings:
+    - melon
+    - boiled ham
+    - salami
+    - cheese
+    - tomato stodge
+...
